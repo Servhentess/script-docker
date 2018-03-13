@@ -2,7 +2,7 @@
 FROM centos:latest
 MAINTAINER Servhentess | oleon-cedric@live.fr
 
-#Run tomcat
+#Run tomcat with loop on catalina.out
 CMD bash /busapps/dcvt/1.0/apache-tomcat-8.5.29/bin/catalina.sh start && \
 	tail /busapps/dcvt/1.0/apache-tomcat-8.5.29/logs/catalina.out -f
 

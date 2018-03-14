@@ -3,8 +3,9 @@ FROM centos:latest
 MAINTAINER Servhentess | oleon-cedric@live.fr
 
 #Run tomcat with loop on catalina.out
-CMD bash /busapps/dcvt/1.0/apache-tomcat-8.5.29/bin/catalina.sh start && \
-	tail /busapps/dcvt/1.0/apache-tomcat-8.5.29/logs/catalina.out -f
+#CMD bash /busapps/dcvt/1.0/apache-tomcat-8.5.29/bin/catalina.sh start && \
+#	tail /busapps/dcvt/1.0/apache-tomcat-8.5.29/logs/catalina.out -f
+CMD bash /busapps/dcvt/1.0/apache-tomcat-8.5.29/bin/catalina.sh run
 
 #Update and requirements
 RUN yum -y update && \
@@ -37,7 +38,11 @@ RUN wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2
 #Install tomcat in /busapps/dcvt/1.0
 RUN wget http://apache.mindstudios.com/tomcat/tomcat-8/v8.5.29/bin/apache-tomcat-8.5.29.tar.gz && \
 	tar zxvf apache-tomcat-8.5.29.tar.gz -C /busapps/dcvt/1.0 && \
-	rm apache-tomcat-8.5.29.tar.gz
+	rm apache-tomcat-8.5.29.tar.gz && \
+	rm /busapps/dcvt/1.0/apache-tomcat-8.5.29/logs
+
+#Create symbolic link : target = /busdata/dcvt/1.0/logs | origin = /busapps/dcvt/1.0/apache-tomcat-8.5.29/logs
+RUN ln -s /busdata/dcvt/1.0/logs /busapps/dcvt/1.0/apache-tomcat-8.5.29/logs
 
 #Install .war sample to /busapps/dcvt/1.0/apache-tomcat-8.5.29/webapps
 RUN wget https://tomcat.apache.org/tomcat-6.0-doc/appdev/sample/sample.war && \
